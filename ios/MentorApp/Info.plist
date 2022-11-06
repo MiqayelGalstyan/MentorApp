@@ -44,9 +44,17 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>$(PRODUCT_NAME) would like to access your location.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to access your location.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+	<key>NSCameraUsageDescription</key>
+    <string>Your message to user when the camera is accessed for the first time</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Your message to user when the photo library is accessed for the first time</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Your message to user when the microsphone is accessed for the first time</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

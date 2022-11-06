@@ -38,6 +38,6 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'relative',
     paddingRight: 20,
-    backgroundColor: '#2e2196',
+    backgroundColor: '#2e1b46',
   },
 });

@@ -1,11 +1,15 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {EPath} from '@src/store/models/enums/route.enum';
 import Initial from '@src/screens/Initial';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Profile from '@src/screens/Profile';
 import Group from '@src/screens/Group';
+import {useDispatch} from 'react-redux';
+import {AppDispatch} from '@src/store';
+import {setGeolocation} from '@src/store/slicers/user';
+import useCheckGeolocation from '@src/shared/hooks/useCheckGeolocation';
 
 const tabOptions: object = {
   headerShown: false,
@@ -57,7 +61,25 @@ const AuthNavigator = (): JSX.Element => {
 };
 
 const Routes = (): JSX.Element => {
+  const dispatch = useDispatch<AppDispatch>();
+  const {coords, getLocation} = useCheckGeolocation();
   const isAuthenticated = false;
+
+  const fetchUserLocation = useCallback(() => {
+    if (coords?.latitude && coords?.latitude) {
+      const data = {
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+      };
+      dispatch(setGeolocation(data));
+    } else {
+      getLocation();
+    }
+  }, [coords?.latitude, coords?.longitude, dispatch, getLocation]);
+
+  useEffect(() => {
+    fetchUserLocation();
+  }, [fetchUserLocation]);
 
   const generateScreen = useCallback((): JSX.Element => {
     return isAuthenticated ? <TabNavigator /> : <AuthNavigator />;

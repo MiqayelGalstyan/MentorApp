@@ -16,7 +16,7 @@ interface ISpinner {
 
 const Spinner = ({
   size = 'large',
-  color = '#2e2196',
+  color = '#2e1b46',
   style,
 }: ISpinner): JSX.Element => {
   return (

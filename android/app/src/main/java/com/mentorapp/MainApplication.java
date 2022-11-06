@@ -12,6 +12,7 @@ import com.facebook.soloader.SoLoader;
 import com.mentorapp.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import com.oblador.vectoricons.VectorIconsPackage;
+import org.reactnative.camera.RNCameraPackage;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
