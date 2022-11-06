@@ -4,9 +4,12 @@ import TextInputField from '@src/shared/ui/TextInputField';
 import MainWrapper from '@src/shared/wrappers/MainWrapper';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import RNButton from '@src/shared/ui/Button';
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import useCheckGeolocation from '@src/shared/hooks/useCheckGeolocation';
+import {requiredFields} from '@src/shared/constants';
+import {EMAIL_REGEX} from '@src/shared/helpers/validators';
+
 interface IImageProperties {
   width: number;
   height: number;
@@ -19,6 +22,8 @@ interface IFormData {
   lastName: string;
   latitude: number | string;
   longitude: number | string;
+  email: string;
+  password: string;
   image: string | null;
 }
 
@@ -29,21 +34,17 @@ const imageProperties: IImageProperties = {
   cropperCircleOverlay: true,
 };
 
-const requiredFields = {
-  required: {
-    value: true,
-    message: 'Required field',
-  },
-};
-
-const Initial = (): JSX.Element => {
+const PersonalInfo = (): JSX.Element => {
   const [submitted, setSubmitted] = useState<boolean>(false);
   const {coords, getLocation} = useCheckGeolocation();
 
   const methods = useForm<IFormData>({
+    mode: 'all',
     defaultValues: {
       firstName: '',
       lastName: '',
+      email: '',
+      password: '',
       latitude: coords?.latitude ?? '',
       longitude: coords?.longitude ?? '',
       image: null,
@@ -54,26 +55,31 @@ const Initial = (): JSX.Element => {
 
   const uri = watch('image');
 
-  const onSubmit = (formData: IFormData) => {
-    setSubmitted(true);
-    console.log(formData, 'formData');
-  };
+  const onAvatarChange = useCallback(
+    (image: ImageOrVideo) => {
+      setValue('image', image.path);
+    },
+    [setValue],
+  );
 
-  const onAvatarChange = (image: ImageOrVideo): void => {
-    setValue('image', image.path);
-  };
-
-  const openCamera = (): void => {
+  const openCamera = useCallback(() => {
     ImagePicker.openCamera({
       ...imageProperties,
       useFrontCamera: true,
     }).then(image => {
       onAvatarChange(image);
     });
-  };
+  }, [onAvatarChange]);
 
-  const removeImageHandler = (): void => {
+  const removeImageHandler = useCallback(() => {
     setValue('image', null);
+  }, [setValue]);
+
+  const onSubmit = (formData: IFormData) => {
+    if (!formData.image) {
+      return;
+    }
+    setSubmitted(true);
   };
 
   const checkCoords = useMemo(() => {
@@ -81,6 +87,49 @@ const Initial = (): JSX.Element => {
       ? {latitude: coords.latitude, longitude: coords.longitude}
       : null;
   }, [coords.latitude, coords.longitude]);
+
+  const generateImageView = useCallback(() => {
+    return uri ? (
+      <>
+        <View style={styles.avatarWrapper}>
+          <Image source={{uri}} style={styles.avatar} resizeMode="cover" />
+          <RNButton
+            onPress={removeImageHandler}
+            text="Remove Photo"
+            color="#ff5505"
+          />
+        </View>
+      </>
+    ) : (
+      <>
+        <>
+          <RNButton onPress={openCamera} text="Upload Photo" color="green" />
+        </>
+      </>
+    );
+  }, [openCamera, removeImageHandler, uri]);
+
+  const generateGeolocationView = useCallback(() => {
+    return checkCoords?.latitude && checkCoords?.longitude ? (
+      <>
+        <View style={styles.itemWrapper}>
+          <Text style={styles.text}>Latitude: {checkCoords?.latitude}</Text>
+        </View>
+        <View style={styles.itemWrapper}>
+          <Text style={styles.text}>Longitude: {checkCoords.longitude}</Text>
+        </View>
+      </>
+    ) : (
+      <>
+        <View style={styles.itemWrapper}>
+          <Text style={styles.title}>
+            Please allow your Geolocation permission
+          </Text>
+          <RNButton onPress={getLocation} text="Get Geolocation" />
+        </View>
+      </>
+    );
+  }, [checkCoords?.latitude, checkCoords?.longitude, getLocation]);
 
   return (
     <>
@@ -101,57 +150,30 @@ const Initial = (): JSX.Element => {
               rules={{...requiredFields}}
             />
           </View>
-          {uri ? (
-            <>
-              <View style={styles.itemWrapper}>
-                <View style={styles.avatarWrapper}>
-                  <Image
-                    source={{uri}}
-                    style={styles.avatar}
-                    resizeMode="cover"
-                  />
-                  <RNButton
-                    onPress={removeImageHandler}
-                    text="Remove Photo"
-                    color="#ff5505"
-                  />
-                </View>
-              </View>
-            </>
-          ) : (
-            <>
-              <View style={styles.itemWrapper}>
-                <RNButton
-                  onPress={openCamera}
-                  text="Upload Photo"
-                  color="green"
-                />
-              </View>
-            </>
-          )}
-          {checkCoords?.latitude && checkCoords?.longitude ? (
-            <>
-              <View style={styles.itemWrapper}>
-                <Text style={styles.text}>
-                  Latitude: {checkCoords?.latitude}
-                </Text>
-              </View>
-              <View style={styles.itemWrapper}>
-                <Text style={styles.text}>
-                  Longitude: {checkCoords.longitude}
-                </Text>
-              </View>
-            </>
-          ) : (
-            <>
-              <View style={styles.itemWrapper}>
-                <Text style={styles.title}>
-                  Please allow your Geolocation permission
-                </Text>
-                <RNButton onPress={getLocation} text="Get Geolocation" />
-              </View>
-            </>
-          )}
+          <View style={styles.itemWrapper}>{generateImageView()}</View>
+          {generateGeolocationView()}
+          <View style={styles.itemWrapper}>
+            <TextInputField
+              name="email"
+              label="Email"
+              rules={{
+                required: 'Required',
+                pattern: {
+                  value: EMAIL_REGEX,
+                  message: 'Not valid email',
+                },
+              }}
+            />
+          </View>
+          <View style={styles.itemWrapper}>
+            <TextInputField
+              name="password"
+              label="Password"
+              isPassword
+              secureTextEntry
+              rules={{...requiredFields}}
+            />
+          </View>
           <View style={[styles.itemWrapper, styles.submitBtnWrapper]}>
             <RNButton onPress={handleSubmit(onSubmit)} loading={submitted} />
           </View>
@@ -161,7 +183,7 @@ const Initial = (): JSX.Element => {
   );
 };
 
-export default Initial;
+export default PersonalInfo;
 
 const styles = StyleSheet.create({
   itemWrapper: {
@@ -186,12 +208,18 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   title: {
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: '700',
     marginBottom: 10,
     textAlign: 'center',
   },
   submitBtnWrapper: {
     marginTop: 30,
+  },
+  errorMessage: {
+    marginTop: 10,
+    color: 'red',
+    fontSize: 12,
+    marginBottom: 5,
   },
 });

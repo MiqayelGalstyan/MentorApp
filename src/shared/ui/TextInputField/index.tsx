@@ -26,7 +26,6 @@ interface ITextInputField {
   keyboardType?: KeyboardTypeOptions;
   isPassword?: boolean;
   secureTextEntry?: boolean;
-  errorMessage?: string;
   errorMessageStyles?: StyleProp<TextStyle>;
   editable?: boolean;
   label?: string;
@@ -37,7 +36,6 @@ const TextInputField = ({
   name,
   rules,
   placeholder,
-  errorMessage = '',
   label = '',
   errorMessageStyles,
   customValue,
@@ -89,9 +87,9 @@ const TextInputField = ({
           />
         )}
       />
-      {errors && (errors[name] || errorMessage) ? (
+      {errors && errors[name] ? (
         <Text style={[styles.errorMessage, errorMessageStyles]}>
-          {errorMessage ?? errors[name]?.message}
+          {errors[name]?.message as string}
         </Text>
       ) : null}
       {isPassword && (
@@ -112,7 +110,7 @@ const styles = StyleSheet.create({
   errorMessage: {
     marginTop: 10,
     color: 'red',
-    fontSize: 15,
+    fontSize: 12,
     marginBottom: 5,
   },
   inputWrapper: {

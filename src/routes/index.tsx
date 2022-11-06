@@ -2,7 +2,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import React, {useCallback, useEffect} from 'react';
 import {EPath} from '@src/store/models/enums/route.enum';
-import Initial from '@src/screens/Initial';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Profile from '@src/screens/Profile';
 import Group from '@src/screens/Group';
@@ -11,6 +10,8 @@ import {AppDispatch} from '@src/store';
 import {setGeolocation} from '@src/store/slicers/user';
 import useCheckGeolocation from '@src/shared/hooks/useCheckGeolocation';
 import SplashScreen from 'react-native-splash-screen';
+import EmployeeRelatedInfo from '@src/screens/EmployeeRelatedInfo';
+import PersonalInfo from '@src/screens/PersonalInfo';
 
 const tabOptions: object = {
   headerShown: false,
@@ -54,9 +55,13 @@ const AuthNavigator = (): JSX.Element => {
   const StackAuth = createStackNavigator();
   return (
     <StackAuth.Navigator
-      initialRouteName={EPath.INITIAL}
+      initialRouteName={EPath.PERSONAL_INFO}
       screenOptions={{headerShown: false}}>
-      <StackAuth.Screen name={EPath.INITIAL} component={Initial} />
+      <StackAuth.Screen name={EPath.PERSONAL_INFO} component={PersonalInfo} />
+      <StackAuth.Screen
+        name={EPath.EMPLOYEE_RELATED_INFO}
+        component={EmployeeRelatedInfo}
+      />
     </StackAuth.Navigator>
   );
 };
