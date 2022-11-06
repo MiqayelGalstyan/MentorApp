@@ -13,6 +13,7 @@ import com.mentorapp.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import com.oblador.vectoricons.VectorIconsPackage;
 import org.reactnative.camera.RNCameraPackage;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {

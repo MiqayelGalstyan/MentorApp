@@ -10,6 +10,7 @@ import {useDispatch} from 'react-redux';
 import {AppDispatch} from '@src/store';
 import {setGeolocation} from '@src/store/slicers/user';
 import useCheckGeolocation from '@src/shared/hooks/useCheckGeolocation';
+import SplashScreen from 'react-native-splash-screen';
 
 const tabOptions: object = {
   headerShown: false,
@@ -39,7 +40,7 @@ const TabNavigator = (): JSX.Element => {
       <Tab.Screen
         name={EPath.GROUP}
         options={{
-          tabBarLabel: 'GROUP',
+          tabBarLabel: 'MANAGE GROUP',
           tabBarIcon: () => <MaterialIcon name="groups" size={30} />,
           ...tabOptions,
         }}
@@ -79,6 +80,7 @@ const Routes = (): JSX.Element => {
 
   useEffect(() => {
     fetchUserLocation();
+    SplashScreen.hide();
   }, [fetchUserLocation]);
 
   const generateScreen = useCallback((): JSX.Element => {

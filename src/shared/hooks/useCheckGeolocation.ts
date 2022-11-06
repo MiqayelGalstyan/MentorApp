@@ -10,7 +10,7 @@ interface ICoords {
 
 interface ICoordsReturnedType {
   coords: ICoords;
-  getLocation: () => any;
+  getLocation: () => Promise<void>;
 }
 
 const useCheckGeolocation = (): ICoordsReturnedType => {
@@ -100,8 +100,6 @@ const useCheckGeolocation = (): ICoordsReturnedType => {
   useEffect(() => {
     getLocation();
   }, [getLocation]);
-
-  console.log(coords, 'coords');
 
   return {coords, getLocation};
 };
