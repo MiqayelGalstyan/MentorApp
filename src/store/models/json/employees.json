@@ -5,7 +5,7 @@
       "email": "msealey0@techcrunch.com",
       "gender": "Female",
       "department": "Marketing",
-      "job title": "Analog Circuit Design manager",
+      "job_title": "Analog Circuit Design manager",
       "country": "China",
       "city": "Damaying"
     },
@@ -15,7 +15,7 @@
       "email": "lyves1@hugedomains.com",
       "gender": "Female",
       "department": "Support",
-      "job title": "Web Designer II",
+      "job_title": "Web Designer II",
       "country": "Japan",
       "city": "Hirakata"
     },
@@ -25,7 +25,7 @@
       "email": "dmannakee2@psu.edu",
       "gender": "Female",
       "department": "Human Resources",
-      "job title": "Health Coach II",
+      "job_title": "Health Coach II",
       "country": "Armenia",
       "city": "Sevan"
     },
@@ -35,7 +35,7 @@
       "email": "dflecknell3@vkontakte.ru",
       "gender": "Female",
       "department": "Product Management",
-      "job title": "Senior Editor",
+      "job_title": "Senior Editor",
       "country": "Norway",
       "city": "Drammen"
     },
@@ -45,7 +45,7 @@
       "email": "mclink4@netscape.com",
       "gender": "Female",
       "department": "Human Resources",
-      "job title": "Nuclear Power Engineer",
+      "job_title": "Nuclear Power Engineer",
       "country": "Russia",
       "city": "Nytva"
     },
@@ -55,7 +55,7 @@
       "email": "hcowitz5@mozilla.org",
       "gender": "Male",
       "department": "Services",
-      "job title": "Account Coordinator",
+      "job_title": "Account Coordinator",
       "country": "Uganda",
       "city": "Entebbe"
     },
@@ -65,7 +65,7 @@
       "email": "ftimmermann6@nba.com",
       "gender": "Male",
       "department": "Legal",
-      "job title": "Geological Engineer",
+      "job_title": "Geological Engineer",
       "country": "Russia",
       "city": "Cherkasskoye"
     },
@@ -75,7 +75,7 @@
       "email": "hloughton7@drupal.org",
       "gender": "Male",
       "department": "Product Management",
-      "job title": "Recruiting Manager",
+      "job_title": "Recruiting Manager",
       "country": "China",
       "city": "Jinzhuang"
     },
@@ -85,7 +85,7 @@
       "email": "dgooday8@xing.com",
       "gender": "Male",
       "department": "Legal",
-      "job title": "Speech Pathologist",
+      "job_title": "Speech Pathologist",
       "country": "Egypt",
       "city": "Isnā"
     },
@@ -95,7 +95,7 @@
       "email": "vkissock9@discovery.com",
       "gender": "Female",
       "department": "Services",
-      "job title": "Account Representative IV",
+      "job_title": "Account Representative IV",
       "country": "Portugal",
       "city": "Foros de Salvaterra"
     },
@@ -105,7 +105,7 @@
       "email": "lfarryana@meetup.com",
       "gender": "Male",
       "department": "Accounting",
-      "job title": "Research Nurse",
+      "job_title": "Research Nurse",
       "country": "Russia",
       "city": "Lyalichi"
     },
@@ -115,7 +115,7 @@
       "email": "mlambartb@artisteer.com",
       "gender": "Female",
       "department": "Support",
-      "job title": "Systems Administrator III",
+      "job_title": "Systems Administrator III",
       "country": "Honduras",
       "city": "Marale"
     },
@@ -125,7 +125,7 @@
       "email": "foldknowec@imageshack.us",
       "gender": "Male",
       "department": "Sales",
-      "job title": "Help Desk Technician",
+      "job_title": "Help Desk Technician",
       "country": "Egypt",
       "city": "Dishnā"
     },
@@ -135,7 +135,7 @@
       "email": "bbrowsed@infoseek.co.jp",
       "gender": "Male",
       "department": "Legal",
-      "job title": "Senior Developer",
+      "job_title": "Senior Developer",
       "country": "Nigeria",
       "city": "Gusau"
     },
@@ -145,7 +145,7 @@
       "email": "jdimblebeee@arstechnica.com",
       "gender": "Female",
       "department": "Legal",
-      "job title": "Engineer IV",
+      "job_title": "Engineer IV",
       "country": "Portugal",
       "city": "Ortiga"
     },
@@ -155,7 +155,7 @@
       "email": "gplackstonef@economist.com",
       "gender": "Female",
       "department": "Accounting",
-      "job title": "Computer Systems Analyst IV",
+      "job_title": "Computer Systems Analyst IV",
       "country": "China",
       "city": "Kanshi"
     },
@@ -165,7 +165,7 @@
       "email": "tdebankeg@engadget.com",
       "gender": "Female",
       "department": "Product Management",
-      "job title": "Safety Technician I",
+      "job_title": "Safety Technician I",
       "country": "Finland",
       "city": "Varkaus"
     },
@@ -175,7 +175,7 @@
       "email": "jjertzh@google.it",
       "gender": "Male",
       "department": "Support",
-      "job title": "Design Engineer",
+      "job_title": "Design Engineer",
       "country": "Indonesia",
       "city": "Nobo"
     },
@@ -185,7 +185,7 @@
       "email": "dgregoli@barnesandnoble.com",
       "gender": "Female",
       "department": "Human Resources",
-      "job title": "Programmer I",
+      "job_title": "Programmer I",
       "country": "Portugal",
       "city": "Pedrogão"
     },
@@ -195,7 +195,7 @@
       "email": "efarishj@chron.com",
       "gender": "Female",
       "department": "Human Resources",
-      "job title": "Compensation Analyst",
+      "job_title": "Compensation Analyst",
       "country": "China",
       "city": "Changfeng"
     }

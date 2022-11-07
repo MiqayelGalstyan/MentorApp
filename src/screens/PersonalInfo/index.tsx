@@ -8,7 +8,13 @@ import React, {useCallback, useMemo, useState} from 'react';
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import useCheckGeolocation from '@src/shared/hooks/useCheckGeolocation';
 import {requiredFields} from '@src/shared/constants';
-import {EMAIL_REGEX} from '@src/shared/helpers/validators';
+import {useToast} from 'react-native-toast-notifications';
+import {toastConfigsError} from '@src/shared/constants/toastConfigs';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectUserData, setUserData} from '@src/store/slicers/user';
+import {AppDispatch} from '@src/store';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {EPath} from '@src/store/models/enums/route.enum';
 
 interface IImageProperties {
   width: number;
@@ -22,8 +28,6 @@ interface IFormData {
   lastName: string;
   latitude: number | string;
   longitude: number | string;
-  email: string;
-  password: string;
   image: string | null;
 }
 
@@ -37,14 +41,16 @@ const imageProperties: IImageProperties = {
 const PersonalInfo = (): JSX.Element => {
   const [submitted, setSubmitted] = useState<boolean>(false);
   const {coords, getLocation} = useCheckGeolocation();
+  const toast = useToast();
+  const userData = useSelector(selectUserData);
+  const dispatch = useDispatch<AppDispatch>();
+  const {navigate} = useNavigation();
 
   const methods = useForm<IFormData>({
     mode: 'all',
     defaultValues: {
       firstName: '',
       lastName: '',
-      email: '',
-      password: '',
       latitude: coords?.latitude ?? '',
       longitude: coords?.longitude ?? '',
       image: null,
@@ -54,6 +60,29 @@ const PersonalInfo = (): JSX.Element => {
   const {setValue, watch, handleSubmit} = methods;
 
   const uri = watch('image');
+
+  useFocusEffect(
+    useCallback(() => {
+      setSubmitted(false);
+    }, []),
+  );
+
+  const onSubmit = (formData: IFormData) => {
+    if (!formData.image) {
+      toast.show('Please upload photo', toastConfigsError);
+      return;
+    }
+    setSubmitted(true);
+    dispatch(
+      setUserData({
+        ...userData,
+        ...formData,
+        latitude: coords?.latitude,
+        longitude: coords?.longitude,
+      }),
+    );
+    navigate(EPath.EMPLOYEE_RELATED_INFO as never);
+  };
 
   const onAvatarChange = useCallback(
     (image: ImageOrVideo) => {
@@ -75,20 +104,13 @@ const PersonalInfo = (): JSX.Element => {
     setValue('image', null);
   }, [setValue]);
 
-  const onSubmit = (formData: IFormData) => {
-    if (!formData.image) {
-      return;
-    }
-    setSubmitted(true);
-  };
-
   const checkCoords = useMemo(() => {
     return coords.latitude && coords.longitude
       ? {latitude: coords.latitude, longitude: coords.longitude}
       : null;
   }, [coords.latitude, coords.longitude]);
 
-  const generateImageView = useCallback(() => {
+  const generateImageView = useCallback((): JSX.Element => {
     return uri ? (
       <>
         <View style={styles.avatarWrapper}>
@@ -109,7 +131,7 @@ const PersonalInfo = (): JSX.Element => {
     );
   }, [openCamera, removeImageHandler, uri]);
 
-  const generateGeolocationView = useCallback(() => {
+  const generateGeolocationView = useCallback((): JSX.Element => {
     return checkCoords?.latitude && checkCoords?.longitude ? (
       <>
         <View style={styles.itemWrapper}>
@@ -152,28 +174,6 @@ const PersonalInfo = (): JSX.Element => {
           </View>
           <View style={styles.itemWrapper}>{generateImageView()}</View>
           {generateGeolocationView()}
-          <View style={styles.itemWrapper}>
-            <TextInputField
-              name="email"
-              label="Email"
-              rules={{
-                required: 'Required',
-                pattern: {
-                  value: EMAIL_REGEX,
-                  message: 'Not valid email',
-                },
-              }}
-            />
-          </View>
-          <View style={styles.itemWrapper}>
-            <TextInputField
-              name="password"
-              label="Password"
-              isPassword
-              secureTextEntry
-              rules={{...requiredFields}}
-            />
-          </View>
           <View style={[styles.itemWrapper, styles.submitBtnWrapper]}>
             <RNButton onPress={handleSubmit(onSubmit)} loading={submitted} />
           </View>
@@ -193,6 +193,7 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: '700',
     fontSize: 15,
+    color: 'black',
   },
   avatarWrapper: {
     justifyContent: 'center',

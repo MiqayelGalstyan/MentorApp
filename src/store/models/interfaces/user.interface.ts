@@ -1,9 +1,12 @@
+import {IEmployee} from './employee.interface';
+
 export interface IUserInitialState {
   isAuthenticated: boolean;
   geolocation: null | {
     latitude: number;
     longitude: number;
   };
+  userData: null | IUser;
 }
 
 export interface IUser {
@@ -14,4 +17,6 @@ export interface IUser {
   image?: string;
   department?: string;
   jobTitle?: string;
+  workExperience?: string;
+  employeesGroup?: IEmployee[];
 }

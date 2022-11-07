@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
     ...Theme.textFieldsLabel,
     fontSize: 12,
     fontWeight: 'bold',
+    color: 'black',
   },
   input: {
     borderWidth: 1,
@@ -133,5 +134,6 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     height: 35,
     paddingHorizontal: 10,
+    color: 'black',
   },
 });

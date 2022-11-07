@@ -14,6 +14,8 @@ interface ICheckboxProps {
   rules?: any;
   label?: string;
   color?: string;
+  onChangeCB?: (checked: boolean) => void;
+  disabled?: boolean;
 }
 
 const RNCheckbox = ({
@@ -21,6 +23,8 @@ const RNCheckbox = ({
   rules,
   label = '',
   color = '#2e1b46',
+  disabled = false,
+  onChangeCB,
 }: ICheckboxProps): JSX.Element => {
   const [checked, setChecked] = useState<boolean>(false);
   const {
@@ -30,7 +34,7 @@ const RNCheckbox = ({
 
   const handlePress = (field: ControllerRenderProps<FieldValues, string>) => {
     setChecked(!checked);
-    field.onChange(!checked);
+    onChangeCB ? onChangeCB(!checked) : field.onChange(!checked);
   };
 
   return (
@@ -46,6 +50,7 @@ const RNCheckbox = ({
                 status={field.value ? 'checked' : 'unchecked'}
                 onPress={() => handlePress(field)}
                 color={color}
+                disabled={disabled}
               />
             )}
           />
@@ -89,5 +94,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
     marginLeft: 5,
+    color: 'black',
   },
 });
